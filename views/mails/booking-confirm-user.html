@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Parking Booking Confirmed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Mobile tweaks */
+    @media only screen and (max-width: 620px) {
+      .container {
+        width: 100% !important;
+      }
+
+      .px-24 {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+
+      .col {
+        display: block !important;
+        width: 100% !important;
+      }
+
+      .btn {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body style="margin:0; padding:0; background:#f5f7fb;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f7fb;">
+    <tr>
+      <td align="center" style="padding:24px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container"
+          style="width:600px; max-width:600px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(16,24,40,0.06);">
+          <!-- Header -->
+          <tr>
+            <td style="background:#2d6cdf; padding:20px 24px; color:#ffffff; font-family:Arial,Helvetica,sans-serif;">
+              <table width="100%" role="presentation">
+                <tr>
+                  <td>
+                    <img src="{{company_logo_url}}" alt="{{company_name}}" height="32" style="display:block;">
+                  </td>
+                  <td align="right" style="font-size:12px; opacity:.9;">
+                    Booking ID: <strong>{{booking_code}}</strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Title -->
+          <tr>
+            <td class="px-24" style="padding:24px; font-family:Arial,Helvetica,sans-serif;">
+              <h1 style="margin:0 0 8px; font-size:20px; color:#111827;">Your parking is confirmed 🎉</h1>
+              <p style="margin:0; font-size:14px; color:#6b7280;">
+                Hi {{user_name}}, your booking at <strong>{{parking_location}}</strong> is confirmed.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Booking summary cards -->
+
+          <tr>
+            <td class="px-24" style="padding:0 24px 8px; font-family:Arial,Helvetica,sans-serif;">
+              <table width="100%" role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="col" style="width:50%; padding:12px; vertical-align:top;">
+                    <table width="100%" role="presentation" style="border:1px solid #e5e7eb; border-radius:10px;">
+                      <tr>
+                        <td style="padding:12px;">
+                          <div style="font-size:12px; color:#6b7280; text-transform:uppercase; letter-spacing:.3px;">
+                            Arriving on</div>
+                          <div style="font-size:14px; color:#111827; margin-top:4px;"><strong>{{start_at}}</strong>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="col" style="width:50%; padding:12px; vertical-align:top;">
+                    <table width="100%" role="presentation" style="border:1px solid #e5e7eb; border-radius:10px;">
+                      <tr>
+                        <td style="padding:12px;">
+                          <div style="font-size:12px; color:#6b7280; text-transform:uppercase; letter-spacing:.3px;">
+                            Leaving on</div>
+                          <div style="font-size:14px; color:#111827; margin-top:4px;"><strong>{{end_at}}</strong></div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Details -->
+          <tr>
+            <td class="px-24" style="padding:8px 24px 0; font-family:Arial,Helvetica,sans-serif;">
+              <table width="100%" role="presentation" cellpadding="0" cellspacing="0"
+                style="border:1px solid #e5e7eb; border-radius:10px;">
+                <tr>
+                  <td style="padding:16px;">
+                    <table width="100%" role="presentation" cellpadding="0" cellspacing="0">
+
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Vehicle</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{vehicle_number}} • {{car_type}}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Parking Slot</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{parking_slot}}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>EV Charging</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{#if is_ev_charing}}Yes{{else}}No{{/if}}
+                        </td>
+                      </tr>
+
+                      <!-- Hourly plan block (show when NOT monthly) -->
+                      {{#if is_monthly}}
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Total Duration</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{total_duration_hours}} hours
+                        </td>
+                      </tr>
+                      {{else}}
+                       <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Total Duration</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                           {{total_duration_days}} Days
+                        </td>
+                      </tr>
+                      {{/if}}
+                      {{#if is_ev_charing}}
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>EV Charging Duration</strong>
+                        </td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{ev_hours}} hour(s)
+                        </td>
+                      </tr>
+                      {{/if}}
+
+
+                      <!-- Monthly plan block -->
+                      {{#if is_monthly}}
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Billing Frequency</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{billing_frequency}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Parking Access hours</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">{{access_hours}}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>First Payment</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">{{first_payment}}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Subsequent Payment Date</strong></td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">{{next_payment_date}}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>EV Charging</strong>
+                        </td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{#if is_ev_charing}}Yes{{else}}No{{/if}}
+                        </td>
+                      </tr>
+                       {{#if is_ev_charing}}
+                      <tr>
+                        <td style="padding:6px 0; font-size:14px; color:#111827;"><strong>Charging Duration Total Per Month</strong>
+                        </td>
+                        <td align="right" style="padding:6px 0; font-size:14px; color:#374151;">
+                          {{ev_hours}} hour(s)
+                        </td>
+                      </tr>
+                      {{/if}}
+                       {{/if}}
+
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- Payment -->
+          <tr>
+            <td class="px-24" style="padding:16px 24px 8px; font-family:Arial,Helvetica,sans-serif;">
+              <h3 style="margin:0 0 8px; font-size:16px; color:#111827;">Payment Summary</h3>
+              <table width="100%" role="presentation" cellpadding="0" cellspacing="0"
+                style="border:1px solid #e5e7eb; border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 16px; font-size:14px; color:#374151;">Subtotal</td>
+                  <td align="right" style="padding:12px 16px; font-size:14px; color:#111827;">
+                    <strong>{{currency}}{{subtotal}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; font-size:14px; color:#374151;">Services Fee</td>
+                  <td align="right" style="padding:12px 16px; font-size:14px; color:#111827;">
+                    <strong>{{currency}}{{service_fee}}</strong>
+                  </td>
+                </tr>
+                {{#if is_ev_charing}}
+                <tr>
+                  <td style="padding:12px 16px; font-size:14px; color:#374151;">EV Charging</td>
+                  <td align="right" style="padding:12px 16px; font-size:14px; color:#111827;">
+                    <strong>{{ev_hours}} X {{ev_chargin_per_hour}}={{currency}}{{ev_amount}}</strong>
+                  </td>
+                </tr>
+                {{/if}}
+                <tr>
+                  <td style="padding:14px 16px; font-size:14px; color:#111827; border-top:1px solid #e5e7eb;">
+                    <strong>Order Total</strong>
+                  </td>
+                  <td align="right"
+                    style="padding:14px 16px; font-size:16px; color:#111827; border-top:1px solid #e5e7eb;">
+                    <strong>{{currency}}{{order_total}}</strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Button -->
+          <tr>
+            <td class="px-24" align="center" style="padding:16px 24px 8px; font-family:Arial,Helvetica,sans-serif;">
+              <a href="{{manage_booking_url}}" class="btn"
+                style="display:inline-block; background:#2d6cdf; color:#ffffff; text-decoration:none; padding:12px 18px; border-radius:8px; font-size:14px;">Manage
+                Booking</a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 24px 24px; font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#6b7280;">
+              Need help? <a href="javascript:void(0)" style="color:#2d6cdf; text-decoration:none;">Contact support</a> •
+              {{company_name}}<br>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

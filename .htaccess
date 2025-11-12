@@ -1,0 +1,12 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/dev8ivantechnolo/public_html/gregorio_martinez/backend"
+PassengerBaseURI "/gregorio_martinez/backend"
+PassengerNodejs "/home/dev8ivantechnolo/nodevenv/public_html/gregorio_martinez/backend/16/bin/node"
+PassengerAppType node
+PassengerStartupFile index.js
+PassengerAppLogFile "/home/dev8ivantechnolo/public_html/gregorio_martinez/backend/app_error_log"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

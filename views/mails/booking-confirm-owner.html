@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>New Parking Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body style="margin:0; padding:0; background:#f5f7fb;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f7fb;">
+      <tr>
+        <td align="center" style="padding:24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px; max-width:600px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(16,24,40,0.06);">
+
+            <!-- Header with logo -->
+            <tr>
+              <td style="background:#2d6cdf; padding:20px 24px; color:#ffffff; font-family:Arial,Helvetica,sans-serif;">
+                <table width="100%" role="presentation">
+                  <tr>
+                    <td>
+                      <img src="{{company_logo_url}}" alt="{{company_name}}" height="32" style="display:block;">
+                    </td>
+                    <td align="right" style="font-size:12px; opacity:.9;">
+                      Booking ID: <strong>{{booking_code}}</strong>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Title -->
+            <tr>
+              <td style="padding:24px; font-family:Arial,Helvetica,sans-serif;">
+                <h1 style="margin:0 0 8px; font-size:20px; color:#111827;">New booking received 📢</h1>
+                <p style="margin:0; font-size:14px; color:#6b7280;">
+                  A new customer has booked a slot at <strong>{{parking_location}}</strong>.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Customer Details -->
+            <tr>
+              <td style="padding:8px 24px; font-family:Arial,Helvetica,sans-serif;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb; border-radius:10px;">
+                  <tr>
+                    <td style="padding:12px; font-size:14px; color:#111827;"><strong>Customer Name</strong></td>
+                    <td align="right" style="padding:12px; font-size:14px; color:#374151;">{{user_name}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px; font-size:14px; color:#111827;"><strong>Vehicle</strong></td>
+                    <td align="right" style="padding:12px; font-size:14px; color:#374151;">{{vehicle_number}} • {{car_type}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px; font-size:14px; color:#111827;"><strong>Slot</strong></td>
+                    <td align="right" style="padding:12px; font-size:14px; color:#374151;">{{parking_slot}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px; font-size:14px; color:#111827;"><strong>Arriving</strong></td>
+                    <td align="right" style="padding:12px; font-size:14px; color:#374151;">{{start_at}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px; font-size:14px; color:#111827;"><strong>Leaving</strong></td>
+                    <td align="right" style="padding:12px; font-size:14px; color:#374151;">{{end_at}}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:20px 24px; font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#6b7280;">
+               {{company_name}} • {{company_address}}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
