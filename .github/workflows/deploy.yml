@@ -11,7 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -32,7 +31,7 @@ jobs:
               -p ${{ vars.SSH_PORT }} \
               ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "bash -s" << 'EOSSH'
 
-            PROJECT=/htdocs/parkinourspot.com/backend
+            PROJECT=./htdocs/parkinourspot.com/backend
 
             if [ ! -d $PROJECT/.git ]; then
               echo "[SSH] Cloning repository..."
