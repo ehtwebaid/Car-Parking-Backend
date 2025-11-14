@@ -1,41 +1,47 @@
-image: node:18
+name: Deploy Backend
 
-stages:
-  - deploy
+on:
+  push:
+    branches: [ "main" ]
 
-variables:
-  DEPLOY_DIR: /htdocs/parkinourspot.com/backend
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-deploy_production:
-  stage: deploy
-  only:
-    - main
-  before_script:
-    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y)'
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PASSWORD" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  script:
-  - >
-    ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'bash -s' <<'EOSSH'
+      - name: Install SSH Client
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openssh-client -y
 
-      # Node 18 is already available on server, no NVM needed
+      - name: Add SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+          chmod 700 ~/.ssh
+          ssh-keyscan -p ${{ vars.SSH_PORT }} ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      if [ ! -d /htdocs/parkinourspot.com/backend/.git ]; then
-        echo "[SSH] Cloning project repository..."
-        git clone git@github.com:ehtwebaid/Car-Parking-Backend.git /htdocs/parkinourspot.com/backend
-      else
-        echo "[SSH] Pulling latest changes from main branch..."
-        cd /htdocs/parkinourspot.com/backend
-        git config --global --add safe.directory /htdocs/parkinourspot.com/backend
-        git pull origin main
-      fi
+      - name: Deploy to Server via SSH
+        run: |
+          ssh -p ${{ vars.SSH_PORT }} ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'bash -s' << 'EOSSH'
 
-      cd /htdocs/parkinourspot.com/backend
-      npm install
-      pm2 start index.js --name app || pm2 restart app
+            # Node 18 is already installed on server
 
-    EOSSH
+            if [ ! -d /htdocs/parkinourspot.com/backend/.git ]; then
+              echo "[SSH] Cloning project repository..."
+              git clone git@github.com:ehtwebaid/Car-Parking-Backend.git /htdocs/parkinourspot.com/backend
+            else
+              echo "[SSH] Pulling latest changes from main branch..."
+              cd /htdocs/parkinourspot.com/backend
+              git config --global --add safe.directory /htdocs/parkinourspot.com/backend
+              git pull origin main
+            fi
+
+            cd /htdocs/parkinourspot.com/backend
+            npm install
+            pm2 start index.js --name app || pm2 restart app
+
+          EOSSH
