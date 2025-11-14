@@ -66,6 +66,7 @@ app.use(
   })
 );
 
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views'); // folder for EJS templates
 app.use(express.static("public"));
