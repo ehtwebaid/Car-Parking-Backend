@@ -55,7 +55,7 @@ jobs:
             cd $PROJECT
 
             echo "[SSH] Installing dependencies..."
-            npm install --legacy-peer-deps
+            npm install
 
             echo "[SSH] Starting/Restarting PM2..."
             pm2 start index.js --name app || pm2 restart app
