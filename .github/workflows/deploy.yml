@@ -1,7 +1,5 @@
 name: Deploy Backend
 
-
-
 on:
   push:
     branches: [ "main" ]
@@ -12,6 +10,7 @@ jobs:
 
     steps:
       - name: Checkout code
+      # This makes sure submodules and LFS are not breaking
         uses: actions/checkout@v4
 
       - name: Setup SSH
@@ -24,28 +23,32 @@ jobs:
           # Start ssh-agent
           eval "$(ssh-agent -s)"
 
-          # Add private key to agent
+          # Add private key
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
-          # Add server to known_hosts
+          # Add server host key
           ssh-keyscan -p ${{ vars.SSH_PORT }} ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Deploy to Server via SSH
         run: |
-          ssh -p ${{ vars.SSH_PORT }} ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'bash -s' << 'EOSSH'
+          ssh -p ${{ vars.SSH_PORT }} ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} "bash -s" << 'EOSSH'
 
-            if [ ! -d /htdocs/parkinourspot.com/backend/.git ]; then
-              echo "[SSH] Cloning project repository..."
-              git clone git@github.com:ehtwebaid/Car-Parking-Backend.git /htdocs/parkinourspot.com/backend
+            PROJECT=/htdocs/parkinourspot.com/backend
+
+            if [ ! -d $PROJECT/.git ]; then
+              echo "[SSH] Cloning repository..."
+              git clone git@github.com:ehtwebaid/Car-Parking-Backend.git $PROJECT
             else
-              echo "[SSH] Pulling latest changes from main branch..."
-              cd /htdocs/parkinourspot.com/backend
-              git config --global --add safe.directory /htdocs/parkinourspot.com/backend
+              echo "[SSH] Pulling latest changes..."
+              cd $PROJECT
+              git config --global --add safe.directory $PROJECT
               git pull origin main
             fi
 
-            cd /htdocs/parkinourspot.com/backend
-            npm install
+            cd $PROJECT
+            npm install --production
+
             pm2 start index.js --name app || pm2 restart app
 
           EOSSH
