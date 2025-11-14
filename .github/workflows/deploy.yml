@@ -10,25 +10,27 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install SSH Client
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install openssh-client -y
-
-      - name: Add SSH Key
+      - name: Setup SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
           chmod 700 ~/.ssh
+
+          # Start ssh-agent
+          eval "$(ssh-agent -s)"
+
+          # Add private key to agent
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+          # Add server to known_hosts
           ssh-keyscan -p ${{ vars.SSH_PORT }} ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Server via SSH
         run: |
           ssh -p ${{ vars.SSH_PORT }} ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }} 'bash -s' << 'EOSSH'
-
-            # Node 18 is already installed on server
 
             if [ ! -d /htdocs/parkinourspot.com/backend/.git ]; then
               echo "[SSH] Cloning project repository..."
