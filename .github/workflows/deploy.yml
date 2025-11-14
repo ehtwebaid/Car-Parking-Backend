@@ -44,8 +44,7 @@ jobs:
             fi
 
             cd $PROJECT
-            npm install --production
-
+            npm install
             pm2 start index.js --name app || pm2 restart app
 
           EOSSH
