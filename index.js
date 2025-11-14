@@ -73,7 +73,7 @@ console.log('🟡 Server booting...');
 // Health check route — define early
 app.get('/', (req, res) => {
   console.log('📥 GET / hit');
-  res.send('✅ Inventory backend is running');
+  res.send('✅ Car Parking backend is running');
 });
 // Initializing Routes
 app.use(process.env.SERVER_BASEPATH + "/", require("./routes/auth"));

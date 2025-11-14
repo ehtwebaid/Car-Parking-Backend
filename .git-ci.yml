@@ -1,0 +1,41 @@
+image: node:18
+
+stages:
+  - deploy
+
+variables:
+  DEPLOY_DIR: /htdocs/parkinourspot.com/backend
+
+deploy_production:
+  stage: deploy
+  only:
+    - main
+  before_script:
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y)'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PASSWORD" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+  script:
+  - >
+    ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'bash -s' <<'EOSSH'
+
+      # Node 18 is already available on server, no NVM needed
+
+      if [ ! -d /htdocs/parkinourspot.com/backend/.git ]; then
+        echo "[SSH] Cloning project repository..."
+        git clone git@github.com:ehtwebaid/Car-Parking-Backend.git /htdocs/parkinourspot.com/backend
+      else
+        echo "[SSH] Pulling latest changes from main branch..."
+        cd /htdocs/parkinourspot.com/backend
+        git config --global --add safe.directory /htdocs/parkinourspot.com/backend
+        git pull origin main
+      fi
+
+      cd /htdocs/parkinourspot.com/backend
+      npm install
+      pm2 start index.js --name app || pm2 restart app
+
+    EOSSH
