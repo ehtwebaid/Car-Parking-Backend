@@ -1,26 +1,2 @@
-
-
-CREATE VIEW parking_lists AS
-SELECT PSPACE.id as `parking_space_id`,PSPACE.title,PSPACE.slug,PSPACE.parking_type_id,PSPACE.state_id,PSLOT.start_time,PSLOT.end_time,  SUBSTRING_INDEX(PSPACE.photos, ',', 1) AS photo,
-PSPACE.address,PSPACE.city,PSPACE.zip,PSPACE.lat,PSPACE.lang,PSLOT.twenty_four_service,PSLOT.is_ev_charing,PSLOT.per_hour_price,
-PSLOT.per_month_price,PSLOT.ev_charging_price,PSLOT.is_cc_tv,PSPACE.status,PSPACE.created_at,ST.code as `state_code` from parking_spaces as PSPACE
-INNER JOIN  parking_slots as PSLOT ON PSPACE.id=PSLOT.parking_space_id
-LEFT JOIN states as ST ON ST.id=PSPACE.state_id
-where PSLOT.status='A' and PSPACE.status='A'
-
-
-SELECT
-       COUNT(DISTINCT sl.id) AS total_slots,
-       COUNT(DISTINCT b.parking_slot_id) AS booked_slots,
-       CASE
-           WHEN COUNT(DISTINCT sl.id) = COUNT(DISTINCT b.parking_slot_id)
-           THEN 'FULLY BOOKED'
-           ELSE 'AVAILABLE'
-       END AS status
-FROM parking_spaces ps
-JOIN parking_slots sl
-    ON sl.parking_space_id = ps.id
-LEFT JOIN bookings b
-    ON b.parking_slot_id = sl.id
-   AND (b.booking_start <= '2025-08-31 10:00:00' AND b.booking_end >= '2025-08-31 10:00:00')
-GROUP BY ps.id
+ssh-keygen -t ed25519 -C "karumtb@gmail.com"
+cat ~/.ssh/id_ed25519.pub
