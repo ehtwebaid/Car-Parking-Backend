@@ -98,6 +98,7 @@ app.use(
   Timezone.getTimeZone,
   require("./routes/admin")
 );
+
 app.use(
   process.env.SERVER_BASEPATH + "/parking-owner",
   Timezone.getTimeZone,
