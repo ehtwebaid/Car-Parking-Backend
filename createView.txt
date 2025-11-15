@@ -24,3 +24,9 @@ LEFT JOIN bookings b
     ON b.parking_slot_id = sl.id
    AND (b.booking_start <= '2025-08-31 10:00:00' AND b.booking_end >= '2025-08-31 10:00:00')
 GROUP BY ps.id
+
+
+
+
+
+
