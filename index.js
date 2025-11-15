@@ -11,6 +11,7 @@ const path = require("path");
 const http = require("http");
 const helpers = require("./app/common/helpers");
 const { syncDB } = require('./app/models'); // Import sync function
+
 // Importing Configuration files to Global
 global.CONFIG = {
   rules: require("./config/rules"),
