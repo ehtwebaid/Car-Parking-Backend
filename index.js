@@ -81,20 +81,20 @@ app.get('/', (req, res) => {
 // Initializing Routes
 app.use(process.env.SERVER_BASEPATH + "/", require("./routes/auth"));
 app.use(
-  process.env.SERVER_BASEPATH + "/backend/auth",
+  process.env.SERVER_BASEPATH + "/auth",
   require("./routes/auth")
 );
 app.use(
-  process.env.SERVER_BASEPATH + "/backend/master",
+  process.env.SERVER_BASEPATH + "/master",
   require("./routes/master")
 );
 app.use(
-  process.env.SERVER_BASEPATH + "/backend/user",
+  process.env.SERVER_BASEPATH + "/user",
   Timezone.getTimeZone,
   require("./routes/user")
 );
 app.use(
-  process.env.SERVER_BASEPATH + "/backend/admin",
+  process.env.SERVER_BASEPATH + "/admin",
   Timezone.getTimeZone,
   require("./routes/admin")
 );
